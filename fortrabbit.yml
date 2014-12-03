@@ -1,6 +1,7 @@
 ---
 version: 1
 composer:
+
 	mode: trigger
 	method: install
 
