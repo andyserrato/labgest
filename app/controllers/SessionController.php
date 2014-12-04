@@ -39,7 +39,8 @@ class SessionController extends \BaseController {
 	public function destroy()
 	{
     	Auth::logout();
-    	return View::make('sessions.destroy');
+    	Session::flush();
+    	return Redirect::to('/');
 	}
 
 
