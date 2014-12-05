@@ -15,19 +15,6 @@ Route::get('/', function() {
   return View::make("labgest.index");
 });
 
-Route::get('/introduccion', function() {
-  return View::make("labgest.introduccion");
-});
-
-/*Route::get('/productos', function() {
-  return View::make("labgest.productos");
-});*/
-
-Route::get('/sustancias', function() {
-  return View::make("labgest.sustancias");
-});
-
-
 Route::get('/riskquim', function() {
   return Redirect::to("http://riskquim.insht.es:86/riskquim/CLP/");
 });
@@ -47,28 +34,35 @@ Route::get('logout', array(
   'as' => 'session.destroy'
 ));
 
-
-Route::get('/administracion', array( 
-	'before' => 'auth', 
-function(){
-	return View::make("labgest.administracion");
-}));
-
-
-
-Route::resource('group', 'GroupController');
-Route::resource('location', 'LocationController');
-Route::resource('type', 'TypeController');
-Route::resource('unit', 'UnitController');
-Route::resource('user', 'UserController');
-
-
-Route::resource('product', 'ProductController');
+Route::resource('product', 'ProductController', array('only' => array('index')));
 
 Route::post('search', array(
   'uses' => 'ProductController@search',
   'as' => 'product.search'
 ));
+
+Route::group(array('before' => 'auth' ), function()
+{
+  Route::get('administracion', function() {
+    return View::make("labgest.administracion");
+  });
+  Route::resource('group', 'GroupController');
+  Route::resource('location', 'LocationController');
+  Route::resource('type', 'TypeController');
+  Route::resource('unit', 'UnitController');
+  Route::resource('user', 'UserController');
+  Route::resource('product', 'ProductController', 
+                  array('except' => array('index')));
+});
+
+/*Route::get('/productos', function() {
+  return View::make("labgest.productos");
+});*/
+
+/*Route::get('/sustancias', function() {
+  return View::make("labgest.sustancias");
+});
+*/
 
 //Route::resource('crear_usuario', 'UserController@create');
 

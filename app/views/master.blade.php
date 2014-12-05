@@ -22,7 +22,6 @@
             <!-- Everything you want hidden at 940px or less, place within here -->
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{URL::to('introduccion')}}">Introducción</a></li>
                     <li><a href="{{URL::to('product')}}">Productos</a></li>
                     <li><a href="{{URL::to('riskquim')}}">RiskQuim</a></li>
                     @if(Auth::check())
