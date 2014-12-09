@@ -118,6 +118,6 @@
     </table>
     </div>
   @endif
-  {{ HTML::link('product/create', 'Crear Producto', array('class' => 'btn btn-default btn-lg'))}}
+  {{ HTML::link('product/create', 'Crear Producto', array('class' => 'btn btn-lg btn-primary btn-block'))}}
 @stop
 
