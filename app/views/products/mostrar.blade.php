@@ -69,8 +69,55 @@
   @endif
 
   @if(Auth::check())
+    <h1>MOSTRAR TODOS LOS PRODUCTOS</h1>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>IUPAC</th>
+          <th>CAS</th>
+          <th>CE</th>
+          <th>Cantidad</th>
+          <th>Unidad</th>
+          <th>Ubicación</th>
+          <th>Responsable</th>
+          <th>Modificado</th>
+        </tr>
+      </thead>
+      <tbody>
+    @if(isset($products))
+      
+        @foreach($products as $product)
+        <tr>
+          <td>{{$product->id}} </td>
+          <td>{{$product->iupac}} </td>
+          <td>{{$product->cas}} </td>
+          <td>{{$product->ce}} </td>
+          <td>{{$product->cantidad}}</td>
+          <td>{{$product->unit->unidad}}</td>
+          <td>{{$product->location->nombre}} </td>
+          <td>{{$product->responsable}} </td>
+          <td>{{$product->user->nombre}} </td>
+          <td>
+          {{ HTML::link('product/' . $product->id . '/edit', 'Editar', array('class' => 'btn btn-default btn-sm'))}}
+          {{ Form::open(array('url' => 'product/' . $product->id, 'class' => 'pull-right')) }}
+          {{ Form::hidden('_method', 'DELETE') }}
+          {{ Form::submit('Eliminar', array('class' => 'btn btn-default btn-sm')) }}
+          {{ Form::close() }}
+          </td>
+          <tr><th>Notas</th>
+            <td colspan="9">{{$product->notas}} </td>
+          </tr>
+        </tr>
+        @endforeach
+    @else
+      Todavía no hay nigún Producto registrado
+    @endif
+    </tbody>
+    </table>
+    </div>
+  @endif
   {{ HTML::link('product/create', 'Crear Producto', array('class' => 'btn btn-lg btn-primary btn-block'))}}
-  {{ HTML::link('mostrar', 'Mostrar Todos Los Producto', array('class' => 'btn btn-lg btn-primary btn-block'))}}
-  @endif 
 @stop
 

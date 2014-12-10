@@ -35,6 +35,7 @@ Route::get('logout', array(
 ));
 
 Route::resource('product', 'ProductController', array('only' => array('index')));
+Route::resource('user', 'UserController', array('only' => array('create','store')));
 
 Route::post('search', array(
   'uses' => 'ProductController@search',
@@ -50,7 +51,10 @@ Route::group(array('before' => 'auth' ), function()
   Route::resource('location', 'LocationController');
   Route::resource('type', 'TypeController');
   Route::resource('unit', 'UnitController');
-  Route::resource('user', 'UserController');
+  Route::resource('user', 'UserController', array('except' => array('create','store')));
+  Route::get('mostrar', array(
+  'uses' => 'ProductController@mostrar',
+  'as' => 'product.mostrar'));
   Route::resource('product', 'ProductController', 
                   array('except' => array('index')));
 });

@@ -2,6 +2,11 @@
 
 class UserController extends \BaseController {
 
+	protected $user;
+	public function __construct(User $user)
+	{
+		$this->user = $user;
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -43,15 +48,33 @@ class UserController extends \BaseController {
 	 */
 	public function store()
 	{
+		$input = Input::all();
+		//$input['password'] = Hash::make($input['password']);
+		$this->user->fill($input);
+		if( !$this->user->isValidCreate() )
+		{
+			return Redirect::back()->withInput()->withErrors($this->user->errors);	
+		}
+		/*$validation = Validator::make(Input::all(), User::$rules);
+
+		if($validation->fails())
+		{
+			return Redirect::back()->withInput()->withErrors($validation->messages());
+		}
+		
 		if( (User::where('email', '=', Input::get('email'))->count()) > 0 )
 		{
 			$user = Input::get('email');
 			Session::put('message',"El email {$user} ya se encuentra registrado");
 			return Redirect::action('UserController@create');
-			/*return Redirect::('users.create')
-				->with('message',"El email {$user} ya se encuentra registrado");*/
+			return Redirect::('users.create')
+				->with('message',"El email {$user} ya se encuentra registrado");
 		}
+		*/
+		$this->user->password = Hash::make($this->user->password);
+		$this->user->save();
 
+		/*
 		$user = new User;
 		$user->email = Input::get('email');
 		$user->password = Hash::make(Input::get('password'));
@@ -60,10 +83,10 @@ class UserController extends \BaseController {
 		$user->type_id = Input::get('type_id');
 		$user->group_id = Input::get('group_id');
 		$user->save();
-
+		*/
 		//return Redirect::route('user');
 		return Redirect::to('login')
-			->with('message',"El usuario {$user->email} ha sido creado");		
+			->with('message',"El usuario {$this->user->email} ha sido creado");		
 	}	
 
 	/**
@@ -96,7 +119,8 @@ class UserController extends \BaseController {
 
 		if( is_null($user) )
 		{
-			return Redirect::to( 'user' );
+			//Session::put('errors',"El usuario no existe");
+			return Redirect::to( 'user' )->with('errors',"El usuario no existe");
 		}
 
 		$types = Type::all();
@@ -119,13 +143,23 @@ class UserController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$user = User::find($id);
+		$this->user = User::find($id);
 
-		if( is_null($user) )
+		if( is_null($this->user) )
 		{
-			return Redirect::to( 'user' );
+			//Session::put('errors',"El usuario no existe");
+			//return Redirect::to('user');
+			return Redirect::to( 'user' )->with('errors',"El usuario no existe");
 		}
 
+		$input = Input::all();
+		//$input['password'] = Hash::make($input['password']);
+		$this->user->fill($input);
+		if( !$this->user->isValidUpdate() )
+		{
+			return Redirect::back()->withInput()->withErrors($this->user->errors);	
+		}
+		/*
 		$user->email = Input::get('email');
 		$user->nombre = Input::get('nombre');
 		$user->password = Hash::make(Input::get('password'));
@@ -133,7 +167,11 @@ class UserController extends \BaseController {
 		$user->type_id = Input::get('type_id');
 		$user->group_id = Input::get('group_id');
 		$user->save();
-		Session::put('message',"El usuario {$user->email} se ha actualizado");
+		*/
+
+		$this->user->password = Hash::make($this->user->password);
+		$this->user->save();
+		Session::put('message',"El usuario {$this->user->email} se ha actualizado");
 		return Redirect::to( 'user' );
 	}
 

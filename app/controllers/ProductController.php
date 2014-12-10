@@ -9,8 +9,13 @@ class ProductController extends \BaseController {
 	 */
 	public function index()
 	{
+		return View::make('products.index');
+	}
+
+	public function mostrar()
+	{
 		$products = Product::all();
-		return View::make('products.index')
+		return View::make('products.mostrar')
 			->with('products',$products);
 	}
 
@@ -123,6 +128,7 @@ class ProductController extends \BaseController {
 				Notas: {$product->notas}";
 	}
 
+	
 
 	/**
 	 * Show the form for editing the specified resource.

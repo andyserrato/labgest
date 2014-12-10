@@ -1,6 +1,10 @@
 @extends('master')
 @section('content')
 <h1 class="page-header">Gestión de Usuarios</h1>
+<div class="container">
+  @if (Session::has('errors'))
+    <div class="alert alert-danger">{{Session::remove('errors')}}</div>
+  @endif
   @if(isset($users))
     <h2>{{$users->count()}} Usuarios</h2>
     <div class="table-responsive">
