@@ -2,6 +2,11 @@
 
 class ProductController extends \BaseController {
 
+	protected $product;
+	public function __construct(Product $product)
+	{
+		$this->product = $product;
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -50,7 +55,7 @@ class ProductController extends \BaseController {
 			return Redirect::to('product')
 				->with('errors', 'No se encuentran registros con ese término de búsqueda');	
 		}		
-
+		/*
 		if( Auth::check() )
 		{
 			$products = Product::all();
@@ -60,7 +65,7 @@ class ProductController extends \BaseController {
 				//->with('resultsCount',$results->count());
 
 		}
-
+		*/
 		return View::make('products.index')
 				->with('results',$results);
 				//->with('resultsCount',$results->count());
@@ -91,6 +96,7 @@ class ProductController extends \BaseController {
 	 */
 	public function store()
 	{
+		/*
 		$product = new Product;
 		$product->cas = Input::get('cas');
 		$product->iupac = Input::get('iupac');
@@ -102,8 +108,20 @@ class ProductController extends \BaseController {
 		$product->user_id = Auth::id();//Input::get('user_id');
 		$product->notas = Input::get('notas');
 		$product->save();
-
 		return Redirect::to( 'product' );
+		*/
+		$input = Input::all();
+		$input['user_id'] = Auth::id();
+		$this->product->fill($input);
+		if( !$this->product->isValidCreate() )
+		{
+			return Redirect::back()->withInput()->withErrors($this->product->errors);	
+		}
+
+		$this->product->save();
+
+		return Redirect::to('product')
+			->with('message',"El producto {$this->product->iupac} ha sido creado");
 	}
 
 
@@ -115,17 +133,17 @@ class ProductController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$product = Product::find($id);
-		return "Id: {$product->id}
-				CAS: {$product->cas} 
-				IUPAC: {$product->iupac} 
-				CES: {$product->ces}
-				Unit_id: {$product->unit_id}
-				Location_id: {$product->location_id}
-				Cantidad:{$product->cantidad}
-				Responsable:{$product->responsable}
-				User_id: {$product->user_id}
-				Notas: {$product->notas}";
+		$this->product = Product::find($id);
+		return "Id: {$this->product->id}
+				CAS: {$this->product->cas} 
+				IUPAC: {$this->product->iupac} 
+				CES: {$this->product->ces}
+				Unit_id: {$this->product->unit_id}
+				Location_id: {$this->product->location_id}
+				Cantidad:{$this->product->cantidad}
+				Responsable:{$this->product->responsable}
+				User_id: {$this->product->user_id}
+				Notas: {$this->product->notas}";
 	}
 
 	
@@ -138,11 +156,11 @@ class ProductController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$product = Product::find($id);
+		$this->product = Product::find($id);
 
-		if( is_null($product) )
+		if( is_null($this->product) )
 		{
-			return Redirect::to( 'product' );
+			return Redirect::to( 'product' )->with('errors',"El producto no existe");
 		}
 		
 		$locations = Location::all();
@@ -150,7 +168,7 @@ class ProductController extends \BaseController {
 		$units = Unit::all();
   		$unit_options = array_combine($units->lists('id'), $units->lists('unidad')); 
 		return View::make('products.edit')
-		 	->with('product',$product)
+		 	->with('product',$this->product)
 		 	->with('location_options', $location_options)
 		 	->with('unit_options', $unit_options);
 	}
@@ -164,9 +182,10 @@ class ProductController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$product = Product::find($id);
+		/*
+		$this->product = Product::find($id);
 
-		if( is_null($product) )
+		if( is_null($this->product) )
 		{
 			return Redirect::to( 'product' );
 		}
@@ -183,6 +202,34 @@ class ProductController extends \BaseController {
 		$product->save();
 
 		return Redirect::to( 'product' );
+		*/
+		$this->product = Product::find($id);
+
+		if( is_null($this->product) )
+		{
+			//Session::put('errors',"El usuario no existe");
+			//return Redirect::to('product');
+			return Redirect::to( 'product' )->with('errors',"El producto no existe");
+		}
+
+		$input = Input::all();
+		$input['user_id'] = Auth::id();		$this->product->fill($input);
+		if( !$this->product->isValidUpdate() )
+		{
+			return Redirect::back()->withInput()->withErrors($this->product->errors);	
+		}
+		/*
+		$product->email = Input::get('email');
+		$product->nombre = Input::get('nombre');
+		$product->password = Hash::make(Input::get('password'));
+		$product->telefono = Input::get('telefono');
+		$product->type_id = Input::get('type_id');
+		$product->group_id = Input::get('group_id');
+		$product->save();
+		*/
+		$this->product->save();
+		Session::put('message',"El producto {$this->product->email} se ha actualizado");
+		return Redirect::to( 'product' );
 	}
 
 
@@ -194,14 +241,14 @@ class ProductController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$product = Product::find($id);
+		$this->product = Product::find($id);
 
-		if( is_null($product) )
+		if( is_null($this->product) )
 		{
-			return Redirect::to( 'product' );
+			return Redirect::to( 'product' )->with('errors',"El producto no existe");
 		}
 
-		$product->delete();
+		$this->product->delete();
 
 		return Redirect::to( 'product' );
 	}

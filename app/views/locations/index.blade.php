@@ -1,6 +1,10 @@
 @extends('master')
 @section('content')
 <h1 class="page-header">Gestión de Ubicaciones</h1>
+<div class="container">
+@if (Session::has('errors'))
+    <div class="alert alert-danger">{{Session::remove('errors')}}</div>
+@endif
   @if(isset($locations))
     <h2>{{$locations->count()}} Ubicaciones</h2>
     <div class="table-responsive">
@@ -38,5 +42,5 @@
     	Toodavía no hay nigún Ubicación registrado
     @endif
     {{ HTML::link('location/create', 'Crear Ubicación', array('class' => 'btn btn-default btn-lg'))}}
-
+</div>
 @stop

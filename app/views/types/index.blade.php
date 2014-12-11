@@ -1,6 +1,10 @@
 @extends('master')
 @section('content')
 <h1 class="page-header">Gestión de Tipo de Usuarios</h1>
+<div class="container">
+@if (Session::has('errors'))
+    <div class="alert alert-danger">{{Session::remove('errors')}}</div>
+  @endif
   @if(isset($types))
     <h2>{{$types->count()}} Tipos de Usuarios</h2>
     <div class="table-responsive">
@@ -32,5 +36,5 @@
     	Toodavía no hay nigún Tipo de usuario registrado
     @endif
     {{ HTML::link('type/create', 'Crear Tipo de usuario', array('class' => 'btn btn-default btn-lg'))}}
-
+</div>
 @stop

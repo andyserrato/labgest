@@ -2,6 +2,11 @@
 
 class LocationController extends \BaseController {
 
+	protected $location;
+	public function __construct(Location $location)
+	{
+		$this->location = $location;
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -33,6 +38,7 @@ class LocationController extends \BaseController {
 	 */
 	public function store()
 	{
+		/*
 		$location = new Location;
 		$location->nombre = Input::get('nombre');
 		$location->direccion = Input::get('direccion');
@@ -40,6 +46,18 @@ class LocationController extends \BaseController {
 		$location->telefono = Input::get('telefono');
 		$location->save();
 		return Redirect::to('location'); 
+		*/
+		$input = Input::all();
+		$this->location->fill($input);
+		if( !$this->location->isValid() )
+		{
+			return Redirect::back()->withInput()->withErrors($this->location->errors);	
+		}
+		
+		$this->location->save();
+		
+		return Redirect::to('location')->with('message',"La ubicación {$this->location->nombre} ha sido creado");; 	
+
 	}
 
 
@@ -51,12 +69,12 @@ class LocationController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$location = Location::find($id);
-		return "Id: {$location->id}
-				Dirección: {$location->direccion}
-				Nombre: {$location->nombre} 
-				Email: {$location->email} 
-				Teléfono: {$location->telefono}";
+		$this->location = Location::find($id);
+		return "Id: {$this->location->id}
+				Dirección: {$this->location->direccion}
+				Nombre: {$this->location->nombre} 
+				Email: {$this->location->email} 
+				Teléfono: {$this->location->telefono}";
 	}
 
 
@@ -69,15 +87,15 @@ class LocationController extends \BaseController {
 	public function edit($id)
 	{
 		
-		$location = Location::find($id);
+		$this->location = Location::find($id);
 
-		if( is_null($location) )
+		if( is_null($this->location) )
 		{
-			return Redirect::to( 'location' );
+			return Redirect::to( 'location' )->with('errors','La ubicación no existe');
 		}
 
 		return View::make('locations.edit')
-			->with('location',$location);
+			->with('location',$this->location);
 	}
 
 
@@ -89,7 +107,7 @@ class LocationController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		
+	/*	
 		$location = Location::find($id);
 
 		if( is_null($location) )
@@ -103,6 +121,25 @@ class LocationController extends \BaseController {
 		$location->telefono = Input::get('telefono');
 		$location->save();
 		return Redirect::to( 'location' );
+		*/
+		$this->location = Location::find($id);
+
+		if( is_null($this->location) )
+		{
+			return Redirect::to( 'location' )->with('errors','La ubicación no existe');
+		}
+
+		$input = Input::all();
+		$this->location->fill($input);
+		if( !$this->location->isValid() )
+		{
+			return Redirect::back()->withInput()->withErrors($this->location->errors);	
+		}
+
+		$this->location->save();
+		Session::put('message',"La ubicación {$this->location->nombre} se ha actualizado");
+		return Redirect::to( 'location' );
+	
 	}
 
 
@@ -115,14 +152,16 @@ class LocationController extends \BaseController {
 	public function destroy($id)
 	{
 		
-		$location = Location::find($id);
+		$this->location = Location::find($id);
 
-		if( is_null($location) )
+		if( is_null($this->location) )
 		{
-			return Redirect::to( 'location' );
+			return Redirect::to( 'location' )->with('errors','La ubicación no existe');
 		}
 
-		$location->delete();
+		Session::put('message',"La ubicación {$this->location->nombre} se ha eliminado");
+
+		$this->location->delete();
 
 		return Redirect::to( 'location' );
 	}

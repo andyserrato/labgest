@@ -44,6 +44,6 @@
     	Todavía no hay nigún usuario regsitrado
     @endif
     {{ HTML::link('user/create', 'Crear Usuario', array('class' => 'btn btn-default btn-lg'))}}
-
+</div>
 @stop
         

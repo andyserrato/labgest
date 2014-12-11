@@ -2,6 +2,11 @@
 
 class UnitController extends \BaseController {
 
+	protected $unit;
+	public function __construct(Unit $unit)
+	{
+		$this->unit = $unit;
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -33,10 +38,16 @@ class UnitController extends \BaseController {
 	 */
 	public function store()
 	{
-		$unit = new Unit;
-		$unit->unidad = Input::get('unidad'); // recuerda que esta limitado a 20
-		$unit->save();
-		return Redirect::to('unit'); 	
+		$input = Input::all();
+		$this->unit->fill($input);
+		if( !$this->unit->isValid() )
+		{
+			return Redirect::back()->withInput()->withErrors($this->unit->errors);	
+		}
+		
+		$this->unit->save();
+		
+		return Redirect::to('unit')->with('message',"La unidad de medida {$this->unit->unidad} ha sido creado");; 	
 	}
 
 
@@ -48,9 +59,9 @@ class UnitController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$unit = Unit::find($id);
-		return "Id: {$unit->id}
-				Unidad: {$unit->unidad}";
+		$this->unit = Unit::find($id);
+		return "Id: {$this->unit->id}
+				Unidad: {$this->unit->unidad}";
 	}
 
 
@@ -62,15 +73,15 @@ class UnitController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$unit = Unit::find($id);
+		$this->unit = Unit::find($id);
 
-		if( is_null($unit) )
+		if( is_null($this->unit) )
 		{
-			return Redirect::to( 'unit' );
+			return Redirect::to( 'unit' )->with('errors','La unidad de medida no existe');
 		}
 
 		return View::make('units.edit')
-			->with('unit',$unit);
+			->with('unit',$this->unit);
 	}
 
 
@@ -82,6 +93,7 @@ class UnitController extends \BaseController {
 	 */
 	public function update($id)
 	{
+		/*
 		$unit = Unit::find($id);
 
 		if( is_null($unit) )
@@ -92,7 +104,26 @@ class UnitController extends \BaseController {
 		$unit->unidad = Input::get('unidad');
 		$unit->save();
 		return Redirect::to( 'unit' );
+		*/
+		$this->unit = Unit::find($id);
+
+		if( is_null($this->unit) )
+		{
+			return Redirect::to( 'unit' )->with('errors','La unidad de medida no existe');
+		}
+
+		$input = Input::all();
+		$this->unit->fill($input);
+		if( !$this->unit->isValid() )
+		{
+			return Redirect::back()->withInput()->withErrors($this->unit->errors);	
+		}
+
+		$this->unit->save();
+		Session::put('message',"La unidad de medida {$this->unit->unidad} se ha actualizado");
+		return Redirect::to( 'unit' );
 	}
+	
 
 
 	/**
@@ -103,14 +134,16 @@ class UnitController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$unit = Unit::find($id);
+		$this->unit = Unit::find($id);
 
-		if( is_null($unit) )
+		if( is_null($this->unit) )
 		{
-			return Redirect::to( 'unit' );
+			return Redirect::to( 'unit' )->with('errors','La unidad de medida no existe');
 		}
+		
+		Session::put('message',"La unidad de medida {$this->unit->unidad} se ha eliminado");
 
-		$unit->delete();
+		$this->unit->delete();
 
 		return Redirect::to( 'unit' );
 	}

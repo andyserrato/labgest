@@ -1,6 +1,10 @@
 @extends('master')
 @section('content')
 <h1 class="page-header">Gestión de Unidades de Medida</h1>
+<div class="container">
+@if (Session::has('errors'))
+    <div class="alert alert-danger">{{Session::remove('errors')}}</div>
+  @endif
   @if(isset($units))
     <h2>{{$units->count()}} Unidades</h2>
     <div class="table-responsive">
@@ -26,9 +30,12 @@
             </tr>
     		@endforeach
     	</ul>
+        </tbody>
+        </table>
+        </div>
     @else
     	Toodavía no hay niguna unidad de medida registrada
     @endif
     {{ HTML::link('unit/create', 'Crear Unidad de Medida', array('class' => 'btn btn-default btn-lg'))}}
-
+</div>
 @stop

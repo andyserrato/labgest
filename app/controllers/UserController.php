@@ -97,13 +97,13 @@ class UserController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$user = User::find($id);
-		return "Id: {$user->id}
-				Nombre: {$user->nombre} 
-				Email: {$user->email} 
-				Teléfono: {$user->telefono}
-				Tipo: {$user->type_id}
-				Grupo: {$user->group_id}";
+		$this->user = User::find($id);
+		return "Id: {$this->user->id}
+				Nombre: {$this->user->nombre} 
+				Email: {$this->user->email} 
+				Teléfono: {$this->user->telefono}
+				Tipo: {$this->user->type_id}
+				Grupo: {$this->user->group_id}";
 	}
 
 
@@ -115,9 +115,9 @@ class UserController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$user = User::find($id);
+		$this->user = User::find($id);
 
-		if( is_null($user) )
+		if( is_null($this->user) )
 		{
 			//Session::put('errors',"El usuario no existe");
 			return Redirect::to( 'user' )->with('errors',"El usuario no existe");
@@ -128,7 +128,7 @@ class UserController extends \BaseController {
 		$groups = Group::all();
   		$group_options = array_combine($groups->lists('id'), $groups->lists('nombre')); 
 		return View::make('users.edit')
-			->with('user',$user)
+			->with('user',$this->user)
 		 	->with('type_options', $type_options)
 		 	->with('group_options', $group_options);
 		//return View::make('users.edit')->with('user',$user);
@@ -184,14 +184,16 @@ class UserController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$user = User::find($id);
+		$this->user = User::find($id);
 
-		if( is_null($user) )
+		if( is_null($this->user) )
 		{
-			return Redirect::to( 'user' );
+			return Redirect::to( 'user' )->with('errors',"El usuario no existe");
 		}
 
-		$user->delete();
+		Session::put('message',"El usuario {$this->user->email} se ha eliminado");
+
+		$this->user->delete();
 
 		return Redirect::to( 'user' );
 	}

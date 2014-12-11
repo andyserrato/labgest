@@ -2,6 +2,11 @@
 
 @section('content')
   <h1 class="page-header">Productos </h1>
+  <div class="container">
+  @if (Session::has('errors'))
+    <div class="alert alert-danger">{{Session::remove('errors')}}</div>
+  @endif
+
   <div class="row">
 
   {{Form::open(array('action' => 'ProductController@search', 'role' => 'form', 'class' => 'form-inline'))}}
@@ -72,5 +77,6 @@
   {{ HTML::link('product/create', 'Crear Producto', array('class' => 'btn btn-lg btn-primary btn-block'))}}
   {{ HTML::link('mostrar', 'Mostrar Todos Los Producto', array('class' => 'btn btn-lg btn-primary btn-block'))}}
   @endif 
+</div>
 @stop
 

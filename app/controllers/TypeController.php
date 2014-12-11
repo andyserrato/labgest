@@ -1,7 +1,13 @@
 <?php
 
 class TypeController extends \BaseController {
-
+	
+	protected $type;
+	public function __construct(Type $type)
+	{
+		$this->type = $type;
+	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -33,10 +39,24 @@ class TypeController extends \BaseController {
 	 */
 	public function store()
 	{
+		/*
 		$type = new Type;
 		$type->tipo = Input::get('tipo'); // recuerda que esta limitado a 20
 		$type->save();
 		return Redirect::to('type'); 
+		*/
+
+		$input = Input::all();
+		$this->type->fill($input);
+		if( !$this->type->isValid() )
+		{
+			return Redirect::back()->withInput()->withErrors($this->type->errors);	
+		}
+		
+		$this->type->save();
+		
+		return Redirect::to('type')->with('message',"El tipo de usuario {$this->type->tipo} ha sido creado");; 	
+
 	}
 
 
@@ -48,9 +68,9 @@ class TypeController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$type = Type::find($id);
-		return "Id: {$type->id}
-				Tipo: {$type->tipo}";
+		$this->type = Type::find($id);
+		return "Id: {$this->type->id}
+				Tipo: {$this->type->tipo}";
 	}
 
 
@@ -62,15 +82,15 @@ class TypeController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$type = Type::find($id);
+		$this->type = Type::find($id);
 
-		if( is_null($type) )
+		if( is_null($this->type) )
 		{
-			return Redirect::to( 'type' );
+			return Redirect::to( 'type' )->with('errors','La unidad de medida no existe');
 		}
 
 		return View::make('types.edit')
-			->with('type',$type);
+			->with('type',$this->type);
 	}
 
 
@@ -82,6 +102,7 @@ class TypeController extends \BaseController {
 	 */
 	public function update($id)
 	{
+		/*
 		$type = Type::find($id);
 
 		if( is_null($type) )
@@ -92,6 +113,25 @@ class TypeController extends \BaseController {
 		$type->tipo = Input::get('tipo');
 		$type->save();
 		return Redirect::to( 'type' );
+		*/
+		$this->type = type::find($id);
+
+		if( is_null($this->type) )
+		{
+			return Redirect::to( 'type' )->with('errors','La unidad de medida no existe');
+		}
+
+		$input = Input::all();
+		$this->type->fill($input);
+		if( !$this->type->isValid() )
+		{
+			return Redirect::back()->withInput()->withErrors($this->type->errors);	
+		}
+
+		$this->type->save();
+		Session::put('message',"La unidad de medida {$this->type->unidad} se ha actualizado");
+		return Redirect::to( 'type' );
+	
 	}
 
 
@@ -103,14 +143,16 @@ class TypeController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$type = Type::find($id);
+		$this->type = Type::find($id);
 
-		if( is_null($type) )
+		if( is_null($this->type) )
 		{
-			return Redirect::to( 'type' );
+			return Redirect::to( 'type' )->with('errors','La unidad de medida no existe');
 		}
 
-		$type->delete();
+		Session::put('message',"La unidad de medida {$this->type->unidad} se ha eliminado");
+
+		$this->type->delete();
 
 		return Redirect::to( 'type' );
 	}

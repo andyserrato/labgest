@@ -2,6 +2,11 @@
 
 class GroupController extends \BaseController {
 
+	protected $group;
+	public function __construct(Group $group)
+	{
+		$this->group = $group;
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -32,12 +37,25 @@ class GroupController extends \BaseController {
 	 */
 	public function store()
 	{
+		/*
 		$group = new Group;
 		$group->nombre = Input::get('nombre');
 		$group->email = Input::get('email');
 		$group->telefono = Input::get('telefono');
 		$group->save();
 		return Redirect::to('group'); 
+		*/
+		$input = Input::all();
+		$this->group->fill($input);
+		if( !$this->group->isValid() )
+		{
+			return Redirect::back()->withInput()->withErrors($this->group->errors);	
+		}
+		
+		$this->group->save();
+		
+		return Redirect::to('group')->with('message',"El grupo de investigación {$this->group->nombre} ha sido creado");; 	
+
 	}
 
 
@@ -49,11 +67,11 @@ class GroupController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$group = Group::find($id);
-		return "Id: {$group->id}
-				Nombre: {$group->nombre} 
-				Email: {$group->email} 
-				Teléfono: {$group->telefono}";
+		$this->group = Group::find($id);
+		return "Id: {$this->group->id}
+				Nombre: {$this->group->nombre} 
+				Email: {$this->group->email} 
+				Teléfono: {$this->group->telefono}";
 	}
 
 
@@ -65,15 +83,15 @@ class GroupController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$group = Group::find($id);
+		$this->group = Group::find($id);
 
-		if( is_null($group) )
+		if( is_null($this->group) )
 		{
-			return Redirect::to( 'group' );
+			return Redirect::to( 'group' )->with('errors','El grupo de investigación no existe');
 		}
 
 		return View::make('groups.edit')
-			->with('group',$group);
+			->with('group',$this->group);
 	}
 
 
@@ -85,6 +103,7 @@ class GroupController extends \BaseController {
 	 */
 	public function update($id)
 	{
+		/*
 		$group = Group::find($id);
 
 		if( is_null($group) )
@@ -97,6 +116,25 @@ class GroupController extends \BaseController {
 		$group->telefono = Input::get('telefono');
 		$group->save();
 		return Redirect::to( 'group' );
+		*/
+		$this->group = Group::find($id);
+
+		if( is_null($this->group) )
+		{
+			return Redirect::to( 'group' )->with('errors','El grupo de investigación no existe');
+		}
+
+		$input = Input::all();
+		$this->group->fill($input);
+		if( !$this->group->isValid() )
+		{
+			return Redirect::back()->withInput()->withErrors($this->group->errors);	
+		}
+
+		$this->group->save();
+		Session::put('message',"El grupo de investigación {$this->group->nombre} se ha actualizado");
+		return Redirect::to( 'group' );
+	
 	}
 
 
@@ -108,14 +146,16 @@ class GroupController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$group = Group::find($id);
+		$this->group = Group::find($id);
 
-		if( is_null($group) )
+		if( is_null($this->group) )
 		{
-			return Redirect::to( 'group' );
+			return Redirect::to( 'group' )->with('errors','El grupo de investigación no existe');
 		}
 
-		$group->delete();
+		Session::put('message',"El grupo de investigación {$this->group->nombre} se ha eliminado");
+
+		$this->group->delete();
 
 		return Redirect::to( 'group' );
 	}
