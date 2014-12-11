@@ -1,6 +1,6 @@
 @extends('master')
 
-	@section('content')
+    @section('content')
     <h1>PRODUCTOS</h1>
     {{Form::open(array('action' => 'ProductController@search'))}}
         {{Form::text('keyword', null, array('placeholder'=>'Término de Búsqueda'))}}
@@ -22,12 +22,12 @@
                 <li>{{$result->user_id}} </li>
                 <li>{{$result->notas}} </li>
                 @if(!Auth::guest())
-                	{{ HTML::link('product/' . $result->id, 'Mostrar Producto' ) }}
-                	{{ HTML::link('product/' . $result->id . '/edit', 'Editar Producto')}}
-                	{{ Form::open(array('url' => 'product/' . $result->id, 'class' => 'pull-right')) }}
-                	{{ Form::hidden('_method', 'DELETE') }}
-                	{{ Form::submit('Eliminar Producto', array('class' => 'btn btn-warning')) }}
-                	{{ Form::close() }}
+                    {{ HTML::link('product/' . $result->id, 'Mostrar Producto' ) }}
+                    {{ HTML::link('product/' . $result->id . '/edit', 'Editar Producto')}}
+                    {{ Form::open(array('url' => 'product/' . $result->id, 'class' => 'pull-right')) }}
+                    {{ Form::hidden('_method', 'DELETE') }}
+                    {{ Form::submit('Eliminar Producto', array('class' => 'btn btn-warning')) }}
+                    {{ Form::close() }}
                 @endif
                 <br/>
             @endforeach
@@ -37,4 +37,4 @@
     @if(!Auth::guest())
         {{ HTML::link('product', 'Gestionar Productos') }}
     @endif    
-	@stop
+    @stop

@@ -2,11 +2,11 @@
 
 @section('content')
 <h1 class="page-header">Gestión de Productos</h1>
-<div class="container">
+<div class="col-md-12">
   @if (Session::has('errors'))
     <div class="alert alert-danger">Campos incorrectos en el formulario</div>
   @endif
-      {{Form::model($product, array('action' => array('ProductController@update', $product->id), 'class' => 'form-horizontal', 'role' => 'form'))}}
+    {{Form::model($product, array('action' => array('ProductController@update', $product->id), 'class' => 'form-horizontal', 'role' => 'form'))}}
     {{Form::hidden('_method', 'PUT')}}
     <div class="form-group">
       {{Form::label('iupac', 'IUPAC', array('class'=>'label label-default', 'for'=>'iupac.products.edit'))}}
@@ -47,7 +47,7 @@
       {{ $errors->first('notas')}}
     </div>
     <div class="form-group">
-      {{Form::submit('Guardar', array('class' => 'btn btn-lg btn-primary btn-block'))}}
+      {{Form::submit('Modificar producto', array('class' => 'btn btn-lg btn-primary btn-block'))}}
     </div>
     {{Form::close( )}}
 </div>

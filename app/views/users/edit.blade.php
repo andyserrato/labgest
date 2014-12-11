@@ -2,7 +2,7 @@
 
 @section('content')
 <h1 class="page-header">Gestión de Usuarios</h1>
-<div class="container">
+<div class="col-md-12">
   @if (Session::has('errors'))
     <div class="alert alert-danger">Campos incorrectos en el formulario</div>
   @endif
@@ -39,7 +39,7 @@
       {{ $errors->first('group_id')}}
     </div>
     <div class="form-group">
-      {{Form::submit('Guardar', array('class' => 'btn btn-lg btn-primary btn-block'))}}
+      {{Form::submit('Modificar usuario', array('class' => 'btn btn-lg btn-primary btn-block'))}}
     </div>
   {{ Form::close( )}}
 </div>

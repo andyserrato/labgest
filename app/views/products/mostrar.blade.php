@@ -1,6 +1,8 @@
 @extends('master')
 
 @section('content')
+<div class="col-md-12">
+
   <h1 class="page-header">Productos </h1>
   <div class="row">
 
@@ -10,7 +12,7 @@
                     'ce' => 'CE',
                     'iupac' => 'IUPAC'),
                     'cas', array('class' => 'form-control'))}}
-    {{Form::submit('Buscar',array('class' => 'btn btn-default btn'))}}
+    {{Form::submit('Buscar producto',array('class' => 'btn btn-default btn'))}}
   {{Form::close()}}
   </div>
   @if(isset($results))
@@ -71,6 +73,7 @@
   @if(Auth::check())
     <h1>MOSTRAR TODOS LOS PRODUCTOS</h1>
     <div class="table-responsive">
+      <h2 class="text-info">Total productos: {{$products->count()}}</h2>
       <table class="table table-striped">
         <thead>
         <tr>
@@ -118,6 +121,5 @@
     </table>
     </div>
   @endif
-  {{ HTML::link('product/create', 'Crear Producto', array('class' => 'btn btn-lg btn-primary btn-block'))}}
+  </div>
 @stop
-

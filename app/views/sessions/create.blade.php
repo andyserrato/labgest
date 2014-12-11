@@ -3,7 +3,7 @@
 
 @section('content')
 <h1 class="page-header">Iniciar Sesión</h1>
-<div class="container">
+<div class="col-md-11">
   @if (Session::has('login_errors'))
     <div class="alert alert-danger">Email o contraseña incorrectos</div>
   @endif

@@ -1,12 +1,11 @@
 @extends('master')
 
 @section('content')
+<div class="col-md-12">
   <h1 class="page-header">Productos </h1>
-  <div class="container">
   @if (Session::has('errors'))
     <div class="alert alert-danger">{{Session::remove('errors')}}</div>
   @endif
-
   <div class="row">
 
   {{Form::open(array('action' => 'ProductController@search', 'role' => 'form', 'class' => 'form-inline'))}}
@@ -15,12 +14,12 @@
                     'ce' => 'CE',
                     'iupac' => 'IUPAC'),
                     'cas', array('class' => 'form-control'))}}
-    {{Form::submit('Buscar',array('class' => 'btn btn-default btn'))}}
+    {{Form::submit('Buscar producto',array('class' => 'btn btn-default btn'))}}
   {{Form::close()}}
   </div>
   @if(isset($results))
     <h1>RESULTADOS DE BÚSQUEDA</h1>
-    <h2>Se han encontrado {{$results->count()}} productos</h2>
+    <h2 class="text-info">Total productos: {{$results->count()}}</h2>
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -74,9 +73,7 @@
   @endif
 
   @if(Auth::check())
-  {{ HTML::link('product/create', 'Crear Producto', array('class' => 'btn btn-lg btn-primary btn-block'))}}
-  {{ HTML::link('mostrar', 'Mostrar Todos Los Producto', array('class' => 'btn btn-lg btn-primary btn-block'))}}
-  @endif 
-</div>
+    @endif
+  </div> 
 @stop
 

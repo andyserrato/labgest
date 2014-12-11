@@ -2,7 +2,7 @@
 
 @section('content')
 <h1 class="page-header">Crear una cuenta LABGEST</h1>
-<div class="container">
+<div class="col-md-12">
   @if (Session::has('errors'))
     <div class="alert alert-danger">Campos incorrectos en el formulario</div>
   @endif
@@ -38,7 +38,7 @@
       {{ $errors->first('group_id')}}
     </div>
     <div class="form-group">
-      {{Form::submit('Sign Up',array('class' => 'btn btn-lg btn-primary btn-block'))}}
+      {{Form::submit('Crear usuario',array('class' => 'btn btn-lg btn-primary btn-block'))}}
     </div>
       {{Form::close( )}}
 </div>

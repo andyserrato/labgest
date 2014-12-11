@@ -1,7 +1,7 @@
 @extends('master')
 @section('content')
 <h1 class="page-header">Gestión de Ubicaciones</h1>
-<div class="col-md-11">
+<div class="col-md-12">
   @if (Session::has('errors'))
     <div class="alert alert-danger">Campos incorrectos en el formulario</div>
   @endif
@@ -28,12 +28,8 @@
     {{ $errors->first('email')}}
     </div>
     <div class="form-group">
-    {{Form::submit('Salvar',array('class' => 'btn btn-lg btn-primary btn-block'))}}
+    {{Form::submit('Modificar localización',array('class' => 'btn btn-lg btn-primary btn-block'))}}
     </div>
 {{ Form::close()}}
 </div>
 @stop
-
-
-
-

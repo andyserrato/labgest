@@ -1,8 +1,7 @@
 @extends('master')
-
 @section('content')
 <h1 class="page-header">Gestión de Grupos</h1>
-<div class="col-md-11">
+<div class="col-md-12">
   @if (Session::has('errors'))
     <div class="alert alert-danger">Campos incorrectos en el formulario</div>
   @endif

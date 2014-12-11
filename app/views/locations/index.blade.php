@@ -1,12 +1,12 @@
 @extends('master')
 @section('content')
-<h1 class="page-header">Gestión de Ubicaciones</h1>
-<div class="container">
+<div class="col-md-12">
+<h1 class="page-header">Gestión de localizaciones</h1>
 @if (Session::has('errors'))
     <div class="alert alert-danger">{{Session::remove('errors')}}</div>
 @endif
   @if(isset($locations))
-    <h2>{{$locations->count()}} Ubicaciones</h2>
+    <h2 class="text-info">Total localizaciones: {{$locations->count()}} </h2>
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -21,10 +21,10 @@
         <tbody>
       @foreach($locations as $location)
       <tr>
-	    <td>{{$location->id}}</td>
-	    <td>{{$location->nombre}}</td>
-	    <td>{{$location->direccion}}</td>
-	    <td>{{$location->telefono}} </td>
+      <td>{{$location->id}}</td>
+      <td>{{$location->nombre}}</td>
+      <td>{{$location->direccion}}</td>
+      <td>{{$location->telefono}} </td>
         <td>{{$location->email}}</td>
         <td>
         {{HTML::link('location/' . $location->id . '/edit', 'Editar', array('class' => 'btn btn-default btn-sm'))}}
@@ -34,13 +34,12 @@
         {{Form::close()}}
         </td>
     </tr>
-	@endforeach
+  @endforeach
     </tbody>
     </table>
     </div>
     @else
-    	Toodavía no hay nigún Ubicación registrado
+      Toodavía no hay nigún Ubicación registrado
     @endif
-    {{ HTML::link('location/create', 'Crear Ubicación', array('class' => 'btn btn-default btn-lg'))}}
-</div>
+  </div>
 @stop

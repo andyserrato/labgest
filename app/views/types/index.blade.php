@@ -1,12 +1,12 @@
 @extends('master')
 @section('content')
+<div class="col-md-12">
 <h1 class="page-header">Gestión de Tipo de Usuarios</h1>
-<div class="container">
 @if (Session::has('errors'))
     <div class="alert alert-danger">{{Session::remove('errors')}}</div>
-  @endif
+@endif
   @if(isset($types))
-    <h2>{{$types->count()}} Tipos de Usuarios</h2>
+    <h2 class="text-info">Tipos de usuarios: {{$types->count()}} </h2>
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -16,10 +16,10 @@
         </tr>
         </thead>
         <tbody>
-   		@foreach($types as $type)
+        @foreach($types as $type)
         <tr>
-    			<td>{{$type->id}}</td>
-    			<td>{{$type->tipo}}</td>
+                <td>{{$type->id}}</td>
+                <td>{{$type->tipo}}</td>
                 <td>
                 {{ HTML::link('type/' . $type->id . '/edit', 'Editar', array('class' => 'btn btn-default btn-sm'))}}
                 {{ Form::open(array('url' => 'type/' . $type->id, 'class' => 'pull-right')) }}
@@ -28,13 +28,12 @@
                 {{ Form::close() }}
                 </td>
         </tr>
-    		@endforeach
-    	</tbody>
+            @endforeach
+        </tbody>
         </table>
         </div>
     @else
-    	Toodavía no hay nigún Tipo de usuario registrado
+        Toodavía no hay nigún Tipo de usuario registrado
     @endif
-    {{ HTML::link('type/create', 'Crear Tipo de usuario', array('class' => 'btn btn-default btn-lg'))}}
-</div>
+   </div>
 @stop

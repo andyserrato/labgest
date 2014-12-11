@@ -1,7 +1,7 @@
 @extends('master')
 @section('content')
-<h1 class="page-header">Gestión de Unidades de Medida</h1>
-<div class="container">
+<h1 class="page-header">Gestión de Tipos de Usuarios</h1>
+<div class="col-md-12">
   @if (Session::has('errors'))
     <div class="alert alert-danger">Campos incorrectos en el formulario</div>
   @endif
@@ -13,8 +13,7 @@
     {{ $errors->first('unidad')}}
     </div>
     <div class="form-group">
-    {{Form::submit('Guardar', array('class' => 'btn btn-lg btn-primary btn-block'))}}
+    {{Form::submit('Modificar tipo de usuario', array('class' => 'btn btn-lg btn-primary btn-block'))}}
     </div>
 {{ Form::close( )}}
 @stop
-
