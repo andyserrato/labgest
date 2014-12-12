@@ -144,7 +144,9 @@
                         {{Auth::user()->nombre}} <b class="caret"></b>
                       </a>
                       <ul class="dropdown-menu">
-                        <!--li><a href="{{URL::to('administracion')}}">Administración</a></li>-->
+
+                        <li><a href="{{URL::to('user/' . Auth::user()->id . '/edit')}}">Mi perfil</a></li>
+                        <li class="divider"></li>
                       <li><a href="{{URL::to('logout')}}">Cerrar sesión</a></li>
                       </ul>
                     </li>
