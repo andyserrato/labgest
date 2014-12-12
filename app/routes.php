@@ -12,7 +12,11 @@
 */
 
 Route::get('/', function() {
-  return View::make("labgest.index");
+  return View::make("labgest.index")
+              ->with('cuentaUsuarios', User::all()->count())
+              ->with('cuentaProductos', Product::all()->count())
+              ->with('cuentaLocalizaciones', Location::all()->count())
+              ->with('cuentaMedidas', Unit::all()->count());
 });
 
 Route::get('/riskquim', function() {

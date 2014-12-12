@@ -19,7 +19,11 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                 	
-                                    <div class="huge">0<!--Sacar cuenta de productos total --></div>
+                                    <div class="huge">
+                                    @if(isset($cuentaProductos))
+                                        {{$cuentaProductos}}
+                                    @endif
+                                    </div>
                                     
                                     <div>Productos</div>
                                 </div>
@@ -42,7 +46,11 @@
                                     <i class="fa fa-users fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">0</div>
+                                    <div class="huge">
+                                        @if(isset($cuentaUsuarios))
+                                        {{$cuentaUsuarios}}
+                                    @endif
+                                    </div>
                                     <div>Usuarios</div>
                                 </div>
                             </div>
@@ -64,7 +72,11 @@
                                     <i class="fa fa-location-arrow fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">0</div>
+                                    <div class="huge">
+                                        @if(isset($cuentaLocalizaciones))
+                                        {{$cuentaLocalizaciones}}
+                                    @endif
+                                    </div>
                                     <div>Localizaciones</div>
                                 </div>
                             </div>
@@ -86,7 +98,11 @@
                                     <i class="fa fa-area-chart fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">0</div>
+                                    <div class="huge">
+                                        @if(isset($cuentaMedidas))
+                                        {{$cuentaMedidas}}
+                                    @endif
+                                    </div>
                                     <div>Medidas</div>
                                 </div>
                             </div>

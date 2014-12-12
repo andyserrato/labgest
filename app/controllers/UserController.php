@@ -23,7 +23,12 @@ class UserController extends \BaseController {
 		 //	->with('type_options', $type_options);
 	}
 
+	public function cuentaUsers()
+	{
+		//return User::all()->count();
+		Session::put('cuentaUsers', User::all()->count() );
 
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *
