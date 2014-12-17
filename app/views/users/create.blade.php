@@ -23,6 +23,11 @@
       {{ $errors->first('password')}}
     </div>
     <div class="form-group">
+      {{Form::label('password_confirmation', 'Confirmar Contraseña',array('class'=>'label label-default', 'for'=>'password_confirmation.users.create'))}}
+      {{Form::password('password_confirmation',array('placeholder' => 'Confirmar Contraseña', 'class' => 'form-control','id'=>'password_confirmation.users.create'))}}
+      {{ $errors->first('password_confirmation')}}
+    </div>
+    <div class="form-group">
       {{Form::label('telefono', 'Teléfono',array('class'=>'label label-default', 'for'=>'telefono.users.create'))}}
       {{Form::text('telefono',null, array('placeholder' => 'Teléfono', 'class' => 'form-control','id'=>'telefono.users.create'))}}
       {{ $errors->first('telefono')}}

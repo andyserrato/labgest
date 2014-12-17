@@ -54,11 +54,15 @@ class UserController extends \BaseController {
 	public function store()
 	{
 		$input = Input::all();
+
 		//$input['password'] = Hash::make($input['password']);
 		$this->user->fill($input);
-		if( !$this->user->isValidCreate() )
+		$validation = Validator::make(Input::all(), User::$rulesCreate);
+		//if( !$this->user->isValidCreate() )
+		if( $validation->fails() )
 		{
-			return Redirect::back()->withInput()->withErrors($this->user->errors);	
+			//return Redirect::back()->withInput()->withErrors($this->user->errors);	
+			return Redirect::back()->withInput()->withErrors($validation->messages());
 		}
 		/*$validation = Validator::make(Input::all(), User::$rules);
 
@@ -77,6 +81,7 @@ class UserController extends \BaseController {
 		}
 		*/
 		$this->user->password = Hash::make($this->user->password);
+
 		$this->user->save();
 
 		/*
@@ -158,12 +163,22 @@ class UserController extends \BaseController {
 		}
 
 		$input = Input::all();
-		//$input['password'] = Hash::make($input['password']);
+		$this->user->fill($input);
+		$validation = Validator::make(Input::all(), User::$rulesUpdate);
+		//if( !$this->user->isValidCreate() )
+		if( $validation->fails() )
+		{
+			//return Redirect::back()->withInput()->withErrors($this->user->errors);	
+			return Redirect::back()->withInput()->withErrors($validation->messages());
+		}
+		/*//$input['password'] = Hash::make($input['password']);
 		$this->user->fill($input);
 		if( !$this->user->isValidUpdate() )
 		{
 			return Redirect::back()->withInput()->withErrors($this->user->errors);	
 		}
+		*/
+
 		/*
 		$user->email = Input::get('email');
 		$user->nombre = Input::get('nombre');

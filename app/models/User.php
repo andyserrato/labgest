@@ -20,6 +20,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'nombre'	=> 'required|min:3', 
 		'email' 	=> 'required|email|unique:users', 
 		'password' 	=> 'required|min:5', 
+		'password_confirmation'	=> 'required|min:5|same:password',
 		'telefono' 	=> 'required|integer|min:9',
 		'type_id'	=> 'required',
 		'group_id'	=> 'required' 
@@ -28,6 +29,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'nombre'	=> 'required|min:3', 
 		'email' 	=> 'required|email', 
 		'password' 	=> 'required|min:5', 
+		'password_confirmation'	=> 'required|min:5|same:password', 
 		'telefono' 	=> 'required|integer|min:9',
 		'type_id'	=> 'required',
 		'group_id'	=> 'required' 
