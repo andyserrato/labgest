@@ -12,7 +12,9 @@
     {{Form::text('keyword', null, array('placeholder'=>'Término de Búsqueda', 'class' => 'form-control' ))}}
     {{Form::select('field', array(  'cas' => 'CAS',
                     'ce' => 'CE',
-                    'iupac' => 'IUPAC'),
+                    'iupac' => 'IUPAC',
+                    'location_id' => 'Ubicación',
+                    'responsable' => 'Responsable'),
                     'cas', array('class' => 'form-control'))}}
     {{Form::submit('Buscar producto',array('class' => 'btn btn-default btn'))}}
   {{Form::close()}}

@@ -29,6 +29,13 @@ class ProductController extends \BaseController {
 		$keyword = Input::get('keyword');
 		$field = Input::get('field');
 		
+		if( $keyword == null )
+		{
+			return Redirect::to('product')->with('errors', 'Término de búsqueda vacío');
+			//return Redirect::back()->withErrors('Término de búsqueda vacío');
+		}
+
+			
 		/**if( is_null($keyword) and Auth::check() )
 		{
 			return Redirect::to( 'product' );
@@ -41,20 +48,32 @@ class ProductController extends \BaseController {
 			//	->with('errors', 'No se encontró término de búsqueda');	
 		}
 		*/
-
-		$results = Product::where($field, 'LIKE', '%'.$keyword.'%')->get();
-		
-		if( $keyword == null )
+		if( $field == "location_id" )
 		{
-			return Redirect::to('product')
-				->with('errors', 'Término de búsqueda vacío');
-		}
+			//$keyword = Location::where('nombre', 'LIKE', '%'.$keyword.'%')->get();
+			//$keyword = DB::table('locations')->where('nombre', 'LIKE', '%'.$keyword.'%')->get();
+				
+			//$result->location->nombre
+			$results = Product::whereHas('location', function($q) use ($keyword)
+			{
+				$q->where('nombre', 'LIKE', '%'.$keyword.'%');
+			})->get();
 
+			//return $results;
+			return View::make('products.index')
+				->with('results',$results);
+		
+		}
+		else{
+			$results = Product::where($field, 'LIKE', '%'.$keyword.'%')->get();	
+		}
+		
 		if( $results->isEmpty() )
 		{
 			return Redirect::to('product')
 				->with('errors', 'No se encuentran registros con ese término de búsqueda');	
-		}		
+		}	
+		
 		/*
 		if( Auth::check() )
 		{
@@ -69,6 +88,7 @@ class ProductController extends \BaseController {
 		return View::make('products.index')
 				->with('results',$results);
 				//->with('resultsCount',$results->count());
+
 
 	}
 
@@ -213,7 +233,8 @@ class ProductController extends \BaseController {
 		}
 
 		$input = Input::all();
-		$input['user_id'] = Auth::id();		$this->product->fill($input);
+		$input['user_id'] = Auth::id();		
+		$this->product->fill($input);
 		if( !$this->product->isValidUpdate() )
 		{
 			return Redirect::back()->withInput()->withErrors($this->product->errors);	
