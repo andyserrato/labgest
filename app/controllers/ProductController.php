@@ -32,6 +32,9 @@ class ProductController extends \BaseController {
 		
 		if( $keyword == null )
 		{
+			//$users = User::all();
+    		//$users = array($users->lists('id'));
+    		//return $users;
 			return Redirect::to('product')->with('errors', 'Término de búsqueda vacío');
 			//return Redirect::back()->withErrors('Término de búsqueda vacío');
 		}

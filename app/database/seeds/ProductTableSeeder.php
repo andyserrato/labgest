@@ -12,11 +12,11 @@ class ProductTableSeeder extends Seeder {
 
 	Product::truncate();
     $locations = Location::all();
-    $locations = array($locations->lists('id'));
+    $locations = $locations->lists('id');
     $units = Unit::all();
-    $units = array($units->lists('id'));
+    $units = $units->lists('id');
     $users = User::all();
-    $users = array($users->lists('id'));
+    $users = $users->lists('id');
         
 	foreach(range(1,50) as $index)
 	{
@@ -24,11 +24,11 @@ class ProductTableSeeder extends Seeder {
 			'cas'=>$faker->text(20), 
     		'iupac'=> $faker->text(30),
     		'ce'=>$faker->numberBetween(0,1000), 
-    		'unit_id'=> 1, 
-    		'location_id'=>1, 
+    		'unit_id'=> $faker->randomElement($units), 
+    		'location_id'=> (int)$faker->randomElement($locations), 
     		'cantidad'=> $faker->numberBetween(0,1000), 
     		'responsable'=> $faker->name, 
-    		'user_id'=>1, 
+    		'user_id'=> (int)$faker->randomElement($users), 
     		'notas'=> $faker->text(400) ]);
 	}
   }
