@@ -87,9 +87,9 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                           <li><a href="{{URL::to('product/create')}}">Nuevo producto</a></li>
-                          <li><a href="{{URL::to('mostrar')}}">Todos los productos</a></li>
+                          <li><a href="{{URL::to('product')}}">Buscar productos</a></li>
                           <li class="divider"></li>
-                      <li><a href="{{URL::to('product')}}">Gestionar productos</a></li>
+                      <li><a href="{{URL::to('mostrar')}}">Gestionar productos</a></li>
                       </ul>
               </li>
               <li role="presentation" class="dropdown">
