@@ -75,7 +75,10 @@
   @if(Auth::check())
     <h1>MOSTRAR TODOS LOS PRODUCTOS</h1>
     <div class="table-responsive">
-      <h2 class="text-info">Total productos: {{$products->count()}}</h2>
+    @if(isset($products))
+      <h2 class="text-info">Total productos: {{$products->getTotal()}}</h2>
+      <h2 class="text-info">Mostrando productos: {{$products->count()}}</h2>
+      {{$products->links()}}
       <table class="table table-striped">
         <thead>
         <tr>
@@ -91,7 +94,7 @@
         </tr>
       </thead>
       <tbody>
-    @if(isset($products))
+    
       
         @foreach($products as $product)
         <tr>
@@ -121,7 +124,10 @@
     @endif
     </tbody>
     </table>
+
     </div>
+    {{$products->links()}}
+
   @endif
   </div>
 @stop

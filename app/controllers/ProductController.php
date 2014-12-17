@@ -19,7 +19,8 @@ class ProductController extends \BaseController {
 
 	public function mostrar()
 	{
-		$products = Product::all();
+		//$products = Product::all();
+		$products = Product::paginate(20);
 		return View::make('products.mostrar')
 			->with('products',$products);
 	}
