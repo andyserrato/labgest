@@ -178,7 +178,7 @@
       </div>
     </div>
     
-    <footer class="text-center" style="padding-top:40px;padding-bottom:40px;margin-top:100px;color:#777;text-align:center;border-top:1px solid #e5e5e5" role="contentinfo">LISSIT© Copyright 2014 </footer>
+    <footer class="text-center" style="padding-top:40px;padding-bottom:40px;margin-top:100px;color:#777;text-align:center;border-top:1px solid #e5e5e5" role="contentinfo">LISITT© Copyright 2014 </footer>
   
         {{ HTML::script('assets/js/jquery.min.js') }}
         {{ HTML::script('assets/js/bootstrap.min.js') }}
