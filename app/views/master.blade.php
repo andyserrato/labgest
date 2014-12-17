@@ -132,7 +132,16 @@
                       <li><a href="{{URL::to('unit')}}">Gestionar tipos de medida</a></li>
                       </ul>
               </li>
-
+              <li role="presentation" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                          Grupos<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="{{URL::to('group/create')}}">Nuevo Grupo de Investigación</a></li>
+                          <li class="divider"></li>
+                      <li><a href="{{URL::to('group')}}">Gestionar Grupos de Investigación</a></li>
+                      </ul>
+              </li>
 
 
             </ul>
