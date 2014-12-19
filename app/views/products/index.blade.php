@@ -21,7 +21,19 @@
   </div>
   @if(isset($results))
     <h1>RESULTADOS DE BÚSQUEDA</h1>
-    <h2 class="text-info">Total productos: {{$results->count()}}</h2>
+      <table style="width:100%">
+      <tr>
+        <td>
+            <h2 class="text-info">Total productos: {{$results->getTotal()}}</h2>
+        </td>
+        <td>
+              <div class="text-right">
+                        <h3 class="text-info">Mostrando: {{$results->count()}}</h3>
+                       {{$results->links()}}
+              </div>
+        </td>
+      </tr>
+    </table>
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -66,6 +78,8 @@
     </tbody>
     </table>
     </div>
+    <div class="text-right">{{$results->links()}}</div>
+
   @else
     @if (Session::has('errors'))
       <div class="alert alert-success">
@@ -74,8 +88,6 @@
     @endif
   @endif
 
-  @if(Auth::check())
-    @endif
   </div> 
 @stop
 

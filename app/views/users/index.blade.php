@@ -6,7 +6,19 @@
     <div class="alert alert-danger">{{Session::remove('errors')}}</div>
 @endif
   @if(isset($users))
-    <h2 class="text-info">Total usuarios: {{$users->count()}} </h2>
+    <table style="width:100%">
+      <tr>
+        <td>
+            <h2 class="text-info">Total productos: {{$users->getTotal()}}</h2>
+        </td>
+        <td>
+              <div class="text-right">
+                        <h3 class="text-info">Mostrando: {{$users->count()}}</h3>
+                       {{$users->links()}}
+              </div>
+        </td>
+      </tr>
+    </table>
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -40,6 +52,7 @@
         </tbody>
       </table>
       </div>
+    <div class="text-right">{{$users->links()}}</div>
     @else
       Todavía no hay nigún usuario regsitrado
     @endif

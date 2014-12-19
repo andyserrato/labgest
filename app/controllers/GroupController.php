@@ -14,7 +14,8 @@ class GroupController extends \BaseController {
 	 */
 	public function index()
 	{
-		$groups = Group::all();
+		$howMany = 20;
+		$groups = Group::paginate($howMany);
 		return View::make('groups.index')
 			->with('groups', $groups);
 	}

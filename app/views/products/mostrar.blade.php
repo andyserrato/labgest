@@ -19,7 +19,19 @@
   </div>
   @if(isset($results))
     <h1>RESULTADOS DE BÚSQUEDA</h1>
-    <h2>Se han encontrado {{$results->count()}} productos</h2>
+      <table style="width:100%">
+      <tr>
+        <td>
+            <h2 class="text-info">Total productos: {{$results->getTotal()}}</h2>
+        </td>
+        <td>
+              <div class="text-right">
+                        <h3 class="text-info">Mostrando: {{$results->count()}}</h3>
+                       {{$results->links()}}
+              </div>
+        </td>
+      </tr>
+    </table>
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -64,6 +76,7 @@
     </tbody>
     </table>
     </div>
+    <div class="text-right">{{$results->links()}}</div>
   @else
     @if (Session::has('errors'))
       <div class="alert alert-success">
@@ -76,9 +89,19 @@
     <h1>MOSTRAR TODOS LOS PRODUCTOS</h1>
     <div class="table-responsive">
     @if(isset($products))
-      <h2 class="text-info">Total productos: {{$products->getTotal()}}</h2>
-      <h2 class="text-info">Mostrando productos: {{$products->count()}}</h2>
-      {{$products->links()}}
+    <table style="width:100%">
+      <tr>
+        <td>
+            <h2 class="text-info">Total productos: {{$products->getTotal()}}</h2>
+        </td>
+        <td>
+              <div class="text-right">
+                        <h3 class="text-info">Mostrando: {{$products->count()}}</h3>
+                       {{$products->links()}}
+              </div>
+        </td>
+      </tr>
+    </table>
       <table class="table table-striped">
         <thead>
         <tr>
@@ -126,8 +149,7 @@
     </table>
 
     </div>
-    {{$products->links()}}
-
+    <div class="text-right">{{$products->links()}}</div>
   @endif
   </div>
 @stop

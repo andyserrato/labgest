@@ -19,8 +19,8 @@ class ProductController extends \BaseController {
 
 	public function mostrar()
 	{
-		//$products = Product::all();
-		$products = Product::paginate(20);
+		$howMany = 20;
+		$products = Product::paginate($howMany);
 		return View::make('products.mostrar')
 			->with('products',$products);
 	}
@@ -29,6 +29,7 @@ class ProductController extends \BaseController {
 	{
 		$keyword = Input::get('keyword');
 		$field = Input::get('field');
+		$perPage = 20;
 		
 		if( $keyword == null )
 		{
@@ -61,15 +62,19 @@ class ProductController extends \BaseController {
 			$results = Product::whereHas('location', function($q) use ($keyword)
 			{
 				$q->where('nombre', 'LIKE', '%'.$keyword.'%');
-			})->get();
-
+			})->get();//->paginate($perPage);//->get();
+			//$results->toArray();
+			//$paginator = Paginator::make($results->toArray(), $results->count(), $perPage);
 			//return $results;
-			return View::make('products.index')
-				->with('results',$results);
+			//return View::make('products.index')
+			//	->with('results',$results);
 		
 		}
-		else{
+		else
+		{
 			$results = Product::where($field, 'LIKE', '%'.$keyword.'%')->get();	
+			//$results->toArray();
+			//$paginator = Paginator::make($results->toArray(), $results->count(), $perPage);
 		}
 		
 		if( $results->isEmpty() )
@@ -88,12 +93,22 @@ class ProductController extends \BaseController {
 				//->with('resultsCount',$results->count());
 
 		}
+
 		*/
-		return View::make('products.index')
-				->with('results',$results);
+		//return $results->lists('id');
+		Session::put('results', $results->lists('id'));
+		//return View::make('products.index')
+		//		->with('results',$results);
 				//->with('resultsCount',$results->count());
+		return Redirect::to('viewResults');
+	}
 
-
+	public function viewResults()
+	{
+		$howMany = 20;
+		$results_ids = Session::get('results');
+		$results = Product::whereIn('id', $results_ids)->paginate($howMany);
+		return View::make('products.index')->with('results',$results);
 	}
 
 	/**

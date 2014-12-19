@@ -25,10 +25,10 @@ class ProductTableSeeder extends Seeder {
     		'iupac'=> $faker->text(30),
     		'ce'=>$faker->numberBetween(0,1000), 
     		'unit_id'=> $faker->randomElement($units), 
-    		'location_id'=> (int)$faker->randomElement($locations), 
+    		'location_id'=> $faker->randomElement($locations), 
     		'cantidad'=> $faker->numberBetween(0,1000), 
     		'responsable'=> $faker->name, 
-    		'user_id'=> (int)$faker->randomElement($users), 
+    		'user_id'=> $faker->randomElement($users), 
     		'notas'=> $faker->text(400) ]);
 	}
   }

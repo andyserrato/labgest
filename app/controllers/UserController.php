@@ -15,7 +15,8 @@ class UserController extends \BaseController {
 	 */
 	public function index()
 	{
-		$users = User::all();
+		$howMany = 10;
+		$users = User::paginate($howMany);
 		//$types = Type::all();
   		//$type_options = array_combine($types->lists('id'), $types->lists('tipo')); 
 		return View::make('users.index')
@@ -39,7 +40,14 @@ class UserController extends \BaseController {
 		$types = Type::all();
   		$type_options = array_combine($types->lists('id'), $types->lists('tipo')); 
 		$groups = Group::all();
-  		$group_options = array_combine($groups->lists('id'), $groups->lists('nombre')); 
+  		$group_options = array_combine($groups->lists('id'), $groups->lists('nombre'));
+
+  		if(Auth::guest())
+  		{
+  			$types = Type::whereIn('tipo', array('trabajador'))->get();
+  			$type_options = array_combine($types->lists('id'), $types->lists('tipo'));
+  		}
+
 		return View::make('users.create')
 		 	->with('type_options', $type_options)
 		 	->with('group_options', $group_options);
@@ -54,7 +62,7 @@ class UserController extends \BaseController {
 	public function store()
 	{
 		$input = Input::all();
-
+		
 		//$input['password'] = Hash::make($input['password']);
 		$this->user->fill($input);
 		$validation = Validator::make(Input::all(), User::$rulesCreate);
@@ -137,6 +145,13 @@ class UserController extends \BaseController {
   		$type_options = array_combine($types->lists('id'), $types->lists('tipo')); 
 		$groups = Group::all();
   		$group_options = array_combine($groups->lists('id'), $groups->lists('nombre')); 
+
+        if(Auth::user()->type->tipo == "trabajador")
+  		{
+  			$types = Type::whereIn('tipo', array('trabajador'))->get();
+  			$type_options = array_combine($types->lists('id'), $types->lists('tipo'));
+  		}
+
 		return View::make('users.edit')
 			->with('user',$this->user)
 		 	->with('type_options', $type_options)
@@ -161,10 +176,12 @@ class UserController extends \BaseController {
 			//return Redirect::to('user');
 			return Redirect::to( 'user' )->with('errors',"El usuario no existe");
 		}
-
+		//return User::find($id)->password;
 		$input = Input::all();
+		$input['password'] =User::find($id)->password;
+		$input['password_confirmation'] =User::find($id)->password;
 		$this->user->fill($input);
-		$validation = Validator::make(Input::all(), User::$rulesUpdate);
+		$validation = Validator::make($input, User::$rulesUpdate);
 		//if( !$this->user->isValidCreate() )
 		if( $validation->fails() )
 		{
@@ -191,6 +208,12 @@ class UserController extends \BaseController {
 
 		$this->user->password = Hash::make($this->user->password);
 		$this->user->save();
+		if(Auth::user()->type->tipo == "trabajador")
+  		{
+  			Session::put('message',"El usuario {$this->user->email} se ha actualizado");
+			return Redirect::to( '/' );
+  		}
+
 		Session::put('message',"El usuario {$this->user->email} se ha actualizado");
 		return Redirect::to( 'user' );
 	}

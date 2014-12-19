@@ -19,14 +19,8 @@
       {{ $errors->first('email')}}
     </div>
     <div class="form-group">
-      {{Form::label('password', 'Contraseña',array('class'=>'label label-default', 'for'=>'password.users.edit'))}}
-      {{Form::password('password', array('placeholder' => 'Contraseña', 'class' => 'form-control','id'=>'password.users.edit'))}}
-      {{ $errors->first('password')}}
-    </div>
-    <div class="form-group">
-      {{Form::label('password_confirmation', 'Confirmar Contraseña',array('class'=>'label label-default', 'for'=>'password_confirmation.users.edit'))}}
-      {{Form::password('password_confirmation',array('placeholder' => 'Confirmar Contraseña', 'class' => 'form-control','id'=>'password_confirmation.users.edit'))}}
-      {{ $errors->first('password_confirmation')}}
+      {{Form::label('Cambiar Contraseña', 'Cambiar Contraseña', array('class'=>'label label-default', 'for'=>'password.users.edit'))}}
+      {{ HTML::link('/password/remind', 'Cambiar Contraseña', array('class' => 'btn btn-default btn-sm', 'id'=>'password.users.edit'))}}
     </div>
     <div class="form-group">
       {{Form::label('telefono', 'Teléfono', array('class'=>'label label-default', 'for'=>'telefono.users.edit'))}}

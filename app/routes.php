@@ -40,17 +40,20 @@ Route::get('logout', array(
 
 Route::resource('product', 'ProductController', array('only' => array('index')));
 Route::resource('user', 'UserController', array('only' => array('create','store')));
+//Route::resource('viewResults','ProductController@viewResults');
+Route::get('viewResults', array(
+  'uses'  =>  'ProductController@viewResults',
+  'as'    =>  'product.viewResults'));
 
 Route::post('search', array(
   'uses' => 'ProductController@search',
   'as' => 'product.search'
 ));
 
+
 Route::group(array('before' => 'auth' ), function()
 {
-  Route::get('administracion', function() {
-    return View::make("labgest.administracion");
-  });
+  Route::controller('password', 'RemindersController');
   Route::resource('group', 'GroupController');
   Route::resource('location', 'LocationController');
   Route::resource('type', 'TypeController');
@@ -60,7 +63,7 @@ Route::group(array('before' => 'auth' ), function()
   'uses' => 'ProductController@mostrar',
   'as' => 'product.mostrar'));
   Route::resource('product', 'ProductController', 
-                  array('except' => array('index')));
+                  array('except' => array('index','viewResults','search')));
 });
 
 /*Route::get('/productos', function() {

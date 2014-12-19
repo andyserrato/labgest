@@ -33,9 +33,9 @@
       {{ $errors->first('telefono')}}
     </div>
     <div class="form-group">
-      {{Form::label('Type','Tipo de Usuario',array('class'=>'label label-default', 'for'=>'type.users.create'))}}
-      {{Form::select('type_id', $type_options,'',array('class' => 'form-control','id'=>'type.users.create'))}}
-      {{ $errors->first('type_id')}}
+        {{Form::label('Type','Tipo de Usuario',array('class'=>'label label-default', 'for'=>'type.users.create'))}}
+        {{Form::select('type_id', $type_options,'',array('class' => 'form-control','id'=>'type.users.create'))}}
+        {{ $errors->first('type_id')}}
     </div>
     <div class="form-group">
       {{Form::label('Group','Grupo al que pertences',array('class'=>'label label-default', 'for'=>'group.users.create'))}}

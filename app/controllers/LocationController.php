@@ -14,7 +14,8 @@ class LocationController extends \BaseController {
 	 */
 	public function index()
 	{
-		$locations = Location::all();
+		$howMany = 20;
+		$locations = Location::paginate($howMany);
 		return View::make('locations.index')
 			->with('locations', $locations);
 	}

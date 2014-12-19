@@ -6,7 +6,19 @@
     <div class="alert alert-danger">{{Session::remove('errors')}}</div>
 @endif
     @if($groups)
-    <h2>{{$groups->count()}} Grupos</h2>
+    <table style="width:100%">
+      <tr>
+        <td>
+            <h2 class="text-info">Total productos: {{$groups->getTotal()}}</h2>
+        </td>
+        <td>
+              <div class="text-right">
+                        <h3 class="text-info">Mostrando: {{$groups->count()}}</h3>
+                       {{$groups->links()}}
+              </div>
+        </td>
+      </tr>
+    </table>
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -36,11 +48,11 @@
             </tbody>
             </table>
             </div>
-           
+                <div class="text-right">{{$groups->links()}}</div>
+  
     @else
         Toodavía no hay nigún Grupo registrado
     @endif
-    {{ HTML::link('group/create', 'Crear Grupo', array('class' => 'btn btn-default btn-lg'))}}
 
 @stop
 

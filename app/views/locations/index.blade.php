@@ -6,7 +6,19 @@
     <div class="alert alert-danger">{{Session::remove('errors')}}</div>
 @endif
   @if(isset($locations))
-    <h2 class="text-info">Total localizaciones: {{$locations->count()}} </h2>
+    <table style="width:100%">
+      <tr>
+        <td>
+            <h2 class="text-info">Total productos: {{$locations->getTotal()}}</h2>
+        </td>
+        <td>
+              <div class="text-right">
+                        <h3 class="text-info">Mostrando: {{$locations->count()}}</h3>
+                       {{$locations->links()}}
+              </div>
+        </td>
+      </tr>
+    </table>
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -42,4 +54,6 @@
       Toodavía no hay nigún Ubicación registrado
     @endif
   </div>
+      <div class="text-right">{{$locations->links()}}</div>
+
 @stop

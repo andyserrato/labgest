@@ -92,6 +92,7 @@
                       <li><a href="{{URL::to('mostrar')}}">Gestionar productos</a></li>
                       </ul>
               </li>
+              @if(Auth::user()->type->tipo != "trabajador")
               <li role="presentation" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                           Usuarios<b class="caret"></b>
@@ -100,6 +101,17 @@
                           <li><a href="{{URL::to('user/create')}}">Nuevo usuario</a></li>
                           <li class="divider"></li>
                       <li><a href="{{URL::to('user')}}">Gestionar usuarios</a></li>
+                      </ul>
+              </li>
+              @endif
+              <li role="presentation" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                          Grupos<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="{{URL::to('group/create')}}">Nuevo Grupo de Investigación</a></li>
+                          <li class="divider"></li>
+                      <li><a href="{{URL::to('group')}}">Gestionar Grupos de Investigación</a></li>
                       </ul>
               </li>
               <li role="presentation" class="dropdown">
@@ -114,6 +126,17 @@
               </li>
               <li role="presentation" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                          Tipos de medida <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="{{URL::to('unit/create')}}">Nuevo tipo de medida</a></li>
+                          <li class="divider"></li>
+                      <li><a href="{{URL::to('unit')}}">Gestionar tipos de medida</a></li>
+                      </ul>
+              </li>
+            @if(Auth::user()->type->tipo == "admin")
+              <li role="presentation" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                           Tipos de usuario<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu" role="menu">
@@ -122,28 +145,7 @@
                       <li><a href="{{URL::to('type')}}">Gestionar tipos de usuario</a></li>
                       </ul>
               </li>
-              <li role="presentation" class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                          Tipos de medida<b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="{{URL::to('unit/create')}}">Nuevo tipo de medida</a></li>
-                          <li class="divider"></li>
-                      <li><a href="{{URL::to('unit')}}">Gestionar tipos de medida</a></li>
-                      </ul>
-              </li>
-              <li role="presentation" class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                          Grupos<b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="{{URL::to('group/create')}}">Nuevo Grupo de Investigación</a></li>
-                          <li class="divider"></li>
-                      <li><a href="{{URL::to('group')}}">Gestionar Grupos de Investigación</a></li>
-                      </ul>
-              </li>
-
-
+            @endif
             </ul>
                       
             <ul class="nav navbar-nav navbar-right">
@@ -155,6 +157,7 @@
                       <ul class="dropdown-menu">
 
                         <li><a href="{{URL::to('user/' . Auth::user()->id . '/edit')}}">Mi perfil</a></li>
+                        <li><a href="{{URL::to('assets/pdf/manual.pdf')}}" download="ManualLABGEST">Descargar manual</a></li>
                         <li class="divider"></li>
                       <li><a href="{{URL::to('logout')}}">Cerrar sesión</a></li>
                       </ul>
