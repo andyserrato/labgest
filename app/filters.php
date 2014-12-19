@@ -88,3 +88,14 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+// roles admin, responsable y trabajador
+Route::filter('role', function($route, $request, $role)
+{
+	if(Auth::guest() or !(Auth::user()->type->tipo == $role))
+	{
+		//App::abort(403);
+		return Response::make('Unauthorized', 401);
+	}	
+
+});

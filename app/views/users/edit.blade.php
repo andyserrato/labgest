@@ -19,22 +19,27 @@
       {{ $errors->first('email')}}
     </div>
     <div class="form-group">
-      {{Form::label('Cambiar Contraseña', 'Cambiar Contraseña', array('class'=>'label label-default', 'for'=>'password.users.edit'))}}
-      {{ HTML::link('/password/remind', 'Cambiar Contraseña', array('class' => 'btn btn-default btn-sm', 'id'=>'password.users.edit'))}}
+      {{Form::label('password', 'Contraseña',array('class'=>'label label-default', 'for'=>'password.users.edit'))}}
+      {{Form::password('password',array('placeholder' => 'Sino desea cambiar contraseña, dejar vacío.', 'class' => 'form-control','id'=>'password.users.edit'))}}
+      {{ $errors->first('password')}}
     </div>
     <div class="form-group">
+      {{Form::label('password_confirmation', 'Confirmar Contraseña',array('class'=>'label label-default', 'for'=>'password_confirmation.users.edit'))}}
+      {{Form::password('password_confirmation',array('placeholder' => 'Sino desea cambiar contraseña, dejar vacío.', 'class' => 'form-control','id'=>'password_confirmation.users.edit'))}}
+      {{ $errors->first('password_confirmation')}}
+    </div><div class="form-group">
       {{Form::label('telefono', 'Teléfono', array('class'=>'label label-default', 'for'=>'telefono.users.edit'))}}
       {{Form::text('telefono', null, array('placeholder' => 'Teléfono', 'class' => 'form-control','id'=>'telefono.users.edit'))}}
       {{ $errors->first('telefono')}}
     </div>
     <div class="form-group">
       {{Form::label('Type','Tipo de Usuario', array('class'=>'label label-default', 'for'=>'type.users.edit'))}}
-      {{Form::select('type_id', $type_options,'',array('class' => 'form-control','id'=>'type.users.edit'))}}
+      {{Form::select('type_id', $type_options,$user->type_id,array('class' => 'form-control','id'=>'type.users.edit'))}}
       {{ $errors->first('type_id')}}
     </div>
     <div class="form-group">
       {{Form::label('Group','Grupo al que pertences', array('class'=>'label label-default', 'for'=>'group.users.edit'))}}
-      {{Form::select('group_id',$group_options,'',array('class' => 'form-control','id'=>'group.users.edit'))}}
+      {{Form::select('group_id',$group_options,$user->group_id,array('class' => 'form-control','id'=>'group.users.edit'))}}
       {{ $errors->first('group_id')}}
     </div>
     <div class="form-group">

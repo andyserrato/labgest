@@ -27,13 +27,13 @@
       {{Form::label('cantidad', 'Cantidad', array('class'=>'label label-default', 'for'=>'cantidad.products.edit'))}}
       {{Form::text('cantidad', null, array('placeholder' => 'Cantidad', 'class' => 'form-control','id'=>'cantidad.products.edit'))}}
       {{Form::label('Unit', 'Unidad de Medida', array('class'=>'label label-default', 'for'=>'unit_id.products.edit'))}}
-      {{Form::select('unit_id', $unit_options,'',array('class' => 'form-control','id'=>'unit.products.edit'))}}
+      {{Form::select('unit_id', $unit_options,$product->unit_id,array('class' => 'form-control','id'=>'unit.products.edit'))}}
       {{ $errors->first('cantidad')}}
       {{ $errors->first('unit_id')}}
     </div>
     <div class="form-group">
       {{Form::label('Location', 'Ubicación', array('class'=>'label label-default', 'for'=>'location.products.edit'))}}
-      {{Form::select('location_id', $location_options,'',array('class' => 'form-control','id'=>'location.products.edit'))}}
+      {{Form::select('location_id', $location_options,$product->location_id,array('class' => 'form-control','id'=>'location.products.edit'))}}
       {{ $errors->first('location_id')}}
     </div>
     <div class="form-group">

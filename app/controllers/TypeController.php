@@ -5,6 +5,7 @@ class TypeController extends \BaseController {
 	protected $type;
 	public function __construct(Type $type)
 	{
+		$this->beforeFilter('role:admin');
 		$this->type = $type;
 	}
 	

@@ -56,7 +56,7 @@ Route::group(array('before' => 'auth' ), function()
   Route::controller('password', 'RemindersController');
   Route::resource('group', 'GroupController');
   Route::resource('location', 'LocationController');
-  Route::resource('type', 'TypeController');
+  Route::resource('type', 'TypeController', array('before'=>'role:admin') );
   Route::resource('unit', 'UnitController');
   Route::resource('user', 'UserController', array('except' => array('create','store')));
   Route::get('mostrar', array(
@@ -65,7 +65,7 @@ Route::group(array('before' => 'auth' ), function()
   Route::resource('product', 'ProductController', 
                   array('except' => array('index','viewResults','search')));
 });
-
+//before('role:admin'); before('role:responsable'); before('role:trabajador');
 /*Route::get('/productos', function() {
   return View::make("labgest.productos");
 });*/

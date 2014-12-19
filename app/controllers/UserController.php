@@ -169,7 +169,8 @@ class UserController extends \BaseController {
 	public function update($id)
 	{
 		$this->user = User::find($id);
-
+		$password = $this->user->password;
+		
 		if( is_null($this->user) )
 		{
 			//Session::put('errors',"El usuario no existe");
@@ -178,23 +179,40 @@ class UserController extends \BaseController {
 		}
 		//return User::find($id)->password;
 		$input = Input::all();
-		$input['password'] =User::find($id)->password;
-		$input['password_confirmation'] =User::find($id)->password;
+
 		$this->user->fill($input);
+
 		$validation = Validator::make($input, User::$rulesUpdate);
+		if( $validation->fails() )
+		{
+			return Redirect::back()->withInput()->withErrors($validation->messages());
+		}
+
+
+		if( Input::get('password') != "" )
+		{
+			$this->user->password = Hash::make(Input::get('password'));
+		}
+		else
+		{
+			$this->user->password = $password;	
+		}
+
+		/*$validation = Validator::make($this->user, User::$rulesUpdate);
 		//if( !$this->user->isValidCreate() )
 		if( $validation->fails() )
 		{
 			//return Redirect::back()->withInput()->withErrors($this->user->errors);	
 			return Redirect::back()->withInput()->withErrors($validation->messages());
-		}
-		/*//$input['password'] = Hash::make($input['password']);
-		$this->user->fill($input);
-		if( !$this->user->isValidUpdate() )
+		}*/
+		//$input['password'] = Hash::make($input['password']);
+		//$this->user->fill($input);
+		/*if( !$this->user->isValidUpdate() )
 		{
 			return Redirect::back()->withInput()->withErrors($this->user->errors);	
 		}
 		*/
+		
 
 		/*
 		$user->email = Input::get('email');
@@ -206,7 +224,7 @@ class UserController extends \BaseController {
 		$user->save();
 		*/
 
-		$this->user->password = Hash::make($this->user->password);
+		//$this->user->password = Hash::make($this->user->password);
 		$this->user->save();
 		if(Auth::user()->type->tipo == "trabajador")
   		{
