@@ -5,6 +5,7 @@ class UserController extends \BaseController {
 	protected $user;
 	public function __construct(User $user)
 	{
+		$this->beforeFilter('role:admin,responsable', array('only' => array('index') ));
 		$this->user = $user;
 	}
 
@@ -15,6 +16,7 @@ class UserController extends \BaseController {
 	 */
 	public function index()
 	{
+
 		$howMany = 10;
 		$users = User::paginate($howMany);
 		//$types = Type::all();

@@ -90,12 +90,21 @@ Route::filter('csrf', function()
 });
 
 // roles admin, responsable y trabajador
-Route::filter('role', function($route, $request, $role)
+Route::filter('role', function($route, $request, $roles)
 {
+	/*//return $roles;
+	foreach ((array)$roles as $role) {
+		if($role == Auth::guets())
+			return Response::make('Unauthorized', 401);
+	}
 	if(Auth::guest() or !(Auth::user()->type->tipo == $role))
 	{
 		//App::abort(403);
 		return Response::make('Unauthorized', 401);
 	}	
-
+	*/
+	if(!in_array(Auth::user()->type->tipo, (array)$roles)){
+		return Response::make('Unauthorized', 401);
+	}	
+		
 });

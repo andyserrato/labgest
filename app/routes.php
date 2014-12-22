@@ -53,12 +53,12 @@ Route::post('search', array(
 
 Route::group(array('before' => 'auth' ), function()
 {
-  Route::controller('password', 'RemindersController');
+  Route::controller('password', 'RemindersController', array('before'=>'role:admin'));
   Route::resource('group', 'GroupController');
   Route::resource('location', 'LocationController');
   Route::resource('type', 'TypeController', array('before'=>'role:admin') );
   Route::resource('unit', 'UnitController');
-  Route::resource('user', 'UserController', array('except' => array('create','store')));
+  Route::resource('user', 'UserController', array('except' => array('create','store'), array('before'=>'role:admin,responsable')));
   Route::get('mostrar', array(
   'uses' => 'ProductController@mostrar',
   'as' => 'product.mostrar'));
